@@ -18,7 +18,8 @@ function player_timer_util.PlayerWatchLoop()
         playerTimes[name] = time + 1
     end
 
-  return playerTimes
+    print("Returning player times...")
+    return playerTimes
 end
 
 function PlayerJoined(player_joined)
