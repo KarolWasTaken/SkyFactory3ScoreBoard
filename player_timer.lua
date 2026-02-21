@@ -19,7 +19,7 @@ function player_timer_util.PlayerWatchLoop()
         end
         if leftPlayer then
             print(leftPlayer .. " has disconnected!")
-            playerTimes.remove(leftPlayer)
+            playerTimes[leftPlayer] = nil
         end
     end
 
@@ -61,7 +61,9 @@ end
 function  player_timer_util.save_data()
     local file = io.open("player_time.txt", "w")
     for name, time in pairs(playerTimes) do
-        file:write(name .. "=" .. time .. "\n")
+        if time ~= nil then
+            file:write(name .. "=" .. time .. "\n")
+        end
     end
     file:close()
 end
