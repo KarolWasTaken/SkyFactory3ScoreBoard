@@ -5,12 +5,18 @@ local playerTimes = {}
 
 function player_timer_util.PlayerWatchLoop()
   -- watch for player joins
-    local _, _, player, message = event.pull("chat_message")
+    print("Watching for player joins...")
+    local _, _, player, message = event.pull(1,"chat_message")
 
     local joinedPlayer = message:match("^(.+) joined the game$")
+    local leftPlayer = message:match("^(.+) left the game$")
     if joinedPlayer then
         print(joinedPlayer .. " has connected!")
-        PlayerJoined(joinedPlayer)
+        player_timer_util.PlayerJoined(joinedPlayer)
+    end
+    if leftPlayer then
+        print(leftPlayer .. " has disconnected!")
+        playerTimes.remove(leftPlayer)
     end
 
   -- increment ticks for all players
@@ -18,11 +24,12 @@ function player_timer_util.PlayerWatchLoop()
         playerTimes[name] = time + 1
     end
 
+    player_timer_util.save_data()
     print("Returning player times...")
     return playerTimes
 end
 
-function PlayerJoined(player_joined)
+function player_timer_util.PlayerJoined(player_joined)
     -- read all of player_time.txt and store it in a table
     local file = io.open("player_time.txt", "r")
     if file then
@@ -45,6 +52,14 @@ function PlayerJoined(player_joined)
         file:write(player_joined .. "=" .. 0 .. "\n")
         file:close()
     end
+end
+
+function  player_timer_util.save_data()
+    local file = io.open("player_time.txt", "w")
+    for name, time in pairs(playerTimes) do
+        file:write(name .. "=" .. time .. "\n")
+    end
+    file:close()
 end
 
 return player_timer_util
