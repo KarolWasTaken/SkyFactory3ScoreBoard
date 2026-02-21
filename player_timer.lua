@@ -8,7 +8,7 @@ function player_timer_util.PlayerWatchLoop()
     print("Watching for player joins...")
     local _, _, player, message = event.pull(1,"chat_message")
 
-    if message == nil then
+    if message ~= nil then
         print("No player activity detected.")
         
         local joinedPlayer = message:match("^(.+) joined the game$")
