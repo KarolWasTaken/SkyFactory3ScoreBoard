@@ -6,11 +6,12 @@ local playerTimes = {}
 function player_timer_util.PlayerWatchLoop()
   -- watch for player joins
     print("Watching for player joins...")
-    local _, _, player, message = event.pull(1,"chat_message")
+    local _, _, player, message = event.pull("chat_message")
 
-    if message ~= nil then
+    if message == nil then
         print("No player activity detected.")
-        
+    else
+        print("Player activity detected: " .. message)
         local joinedPlayer = message:match("^(.+) joined the game$")
         local leftPlayer = message:match("^(.+) left the game$")
         if joinedPlayer then
