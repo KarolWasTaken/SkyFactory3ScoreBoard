@@ -1,1 +1,3 @@
-KarenKKujo=147600
+Karol:0=147600
+Rory:0=0
+Jack:0=0
